@@ -1,35 +1,17 @@
 package com.beta.produit
 
+import com.beta.RW.{Read, SparkConnector}
 import org.apache.hadoop.fs.{FileSystem, Path}
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.current_date
 
 object IngestionCategories {
   def main(args: Array[String]): Unit = {
 
-    val spark = SparkSession
-      .builder()
-      .appName("beta2")
-      .config("spark.master","local")
-      .enableHiveSupport()
-      .getOrCreate()
+    val Spark = new SparkConnector
+    val spark = Spark.getSession()
 
-    val dp = spark.read
-      .format("csv")
-      .option("header","true")
-      .option("mode","dropmalformed")
-      .option("delimiter",";")
-      .load("/data/sql/categories.csv")
-      .withColumn("technical_partition", current_date())
-
-
-    dp.write
-      .format("csv")
-      .mode("overwrite")
-      .option("delimiter",";")
-      .partitionBy("technical_partition")
-      .save("/apps/hive/external/default/categories")
-
+    val dx = new Read
+    val dr = dx.readData("/data/sql/Categories.csv")
+    val dw = dx.writeData(dr,"/apps/hive/external/default/Categories/")
     spark.sql("drop table categories")
 
     spark.sql(
