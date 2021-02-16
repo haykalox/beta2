@@ -13,7 +13,7 @@ object IngestionClients {
     val dr = dx.readData("/data/sql/clients.csv")
     val dw = dx.writeData(dr,"/apps/hive/external/default/clients/")
 
- spark.sql("drop table clients")
+ spark.sql("drop table if EXISTS clients")
 
     spark.sql(
       """CREATE EXTERNAL TABLE IF NOT EXISTS

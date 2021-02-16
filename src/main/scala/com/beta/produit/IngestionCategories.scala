@@ -12,7 +12,8 @@ object IngestionCategories {
     val dx = new Read
     val dr = dx.readData("/data/sql/Categories.csv")
     val dw = dx.writeData(dr,"/apps/hive/external/default/Categories/")
-    spark.sql("drop table categories")
+
+    spark.sql("drop table if EXISTS categories")
 
     spark.sql(
       """CREATE EXTERNAL TABLE IF NOT EXISTS

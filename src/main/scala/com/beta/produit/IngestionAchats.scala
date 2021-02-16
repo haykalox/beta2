@@ -13,7 +13,7 @@ object IngestionAchats {
     val dr = dx.readData("/data/sql/achats.csv")
     val dw = dx.writeData(dr,"/apps/hive/external/default/achats/")
 
-     spark.sql("drop table achats")
+     spark.sql("drop table if EXISTS achats")
 
     spark.sql(
       """CREATE EXTERNAL TABLE IF NOT EXISTS
