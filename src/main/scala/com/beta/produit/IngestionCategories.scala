@@ -10,8 +10,8 @@ object IngestionCategories {
     val spark = Spark.getSession()
 
     val dx = new Read
-    val dr = dx.readData("/data/sql/Categories.csv")
-    val dw = dx.writeData(dr,"/apps/hive/external/default/Categories/")
+    val dr = dx.readData("/data/sql/categories.csv")
+    val dw = dx.writeData(dr,"/apps/hive/external/default/categories/")
 
     spark.sql("drop table if EXISTS categories")
 
