@@ -15,7 +15,7 @@ object SqlCategorie {
     .withColumn("technical_partition", current_date())
 
   val dx = new Read
-  val dw = dx.writeData(df,"/apps/hive/external/default/categories")
+  val dw = dx.writeData(df,"/apps/hive/external/default/categories_vente")
 
   spark.sql("drop table if EXISTS categories_vente")
 
