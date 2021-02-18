@@ -1,7 +1,6 @@
 package com.beta.produit
 
 import com.beta.RW.{Read, SparkConnector}
-import org.apache.hadoop.fs.{FileSystem, Path}
 
 object IngestionCategories {
   def main(args: Array[String]): Unit = {
@@ -11,8 +10,8 @@ object IngestionCategories {
 
     val dx = new Read
     val dr = dx.readData("/data/sql/categories.csv")
-    val dw = dx.writeData(dr,"/apps/hive/external/default/categories/")
-
+    val dw = dx.writeData(dr,"/apps/hive/external/default/categories/","categories")
+/*
     spark.sql("drop table if EXISTS categories")
 
     spark.sql(
@@ -31,6 +30,11 @@ object IngestionCategories {
       .map(_.getPath.getName.replaceFirst("technical_partition=",""))
       .foreach(fs =>
         spark.sql(s"""alter table categories add if not exists partition(technical_partition='$fs')"""))
+  */
     spark.sql("SELECT * FROM categories").show()
+
+
+
+
   }
 }

@@ -1,7 +1,6 @@
 package com.beta.produit
 
 import com.beta.RW.{Read, SparkConnector}
-import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.functions.current_date
 
 object SqlCategorie {
@@ -15,8 +14,8 @@ object SqlCategorie {
     .withColumn("technical_partition", current_date())
 
   val dx = new Read
-  val dw = dx.writeData(df,"/apps/hive/external/default/categories_vente")
-
+  val dw = dx.writeData(df,"/apps/hive/external/default/categories_vente","categories_vente")
+/*
   spark.sql("drop table if EXISTS categories_vente")
 
   spark.sql(
@@ -35,6 +34,7 @@ object SqlCategorie {
     .map(_.getPath.getName.replaceFirst("technical_partition=",""))
     .foreach(fs =>
       spark.sql(s"""alter table categories_vente add if not exists partition(technical_partition='$fs')"""))
-  spark.sql("SELECT * FROM categories_vente").show()
+  */
+    spark.sql("SELECT * FROM categories_vente").show()
 
 }}

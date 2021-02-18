@@ -1,7 +1,6 @@
 package com.beta.produit
 
 import com.beta.RW.{Read, SparkConnector}
-import org.apache.hadoop.fs.{FileSystem, Path}
 
 object IngestionClients {
   def main(args: Array[String]): Unit = {
@@ -11,8 +10,8 @@ object IngestionClients {
 
     val dx = new Read
     val dr = dx.readData("/data/sql/clients.csv")
-    val dw = dx.writeData(dr,"/apps/hive/external/default/clients/")
-
+    val dw = dx.writeData(dr,"/apps/hive/external/default/clients/","clients")
+/*
  spark.sql("drop table if EXISTS clients")
 
     spark.sql(
@@ -30,6 +29,7 @@ object IngestionClients {
       .map(_.getPath.getName.replaceFirst("technical_partition=",""))
       .foreach(fs =>
         spark.sql(s"""alter table clients add if not exists partition(technical_partition='$fs')"""))
+   */
     spark.sql("SELECT * FROM clients").show()
 
   }
