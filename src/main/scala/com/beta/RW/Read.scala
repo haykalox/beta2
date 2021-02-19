@@ -54,7 +54,7 @@ class Read {
         .filter(_.isDirectory)
         .map(_.getPath.getName.replaceFirst("technical_partition=",""))
         .foreach(fx =>
-          spark.sql(s"""alter table achats add if not exists partition(technical_partition='$fx')"""))
+          spark.sql(s"""alter table $tb add if not exists partition(technical_partition='$fx')"""))
 
     }
   }
