@@ -11,25 +11,7 @@ object IngestionClients {
     val dx = new Read
     val dr = dx.readData("/data/sql/clients.csv")
     val dw = dx.writeData(dr,"/apps/hive/external/default/clients/","clients")
-/*
- spark.sql("drop table if EXISTS clients")
 
-    spark.sql(
-      """CREATE EXTERNAL TABLE IF NOT EXISTS
-        |clients (id_Client int,nom string)
-        |ROW FORMAT DELIMITED
-        |FIELDS TERMINATED BY ';'
-        |STORED AS TEXTFILE
-        |PARTITIONED BY (technical_partition date)
-        |LOCATION '/apps/hive/external/default/clients'
-        |""".stripMargin)
-    val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-    fs.listStatus(new Path("/apps/hive/external/default/clients"))
-      .filter(_.isDirectory)
-      .map(_.getPath.getName.replaceFirst("technical_partition=",""))
-      .foreach(fs =>
-        spark.sql(s"""alter table clients add if not exists partition(technical_partition='$fs')"""))
-   */
     spark.sql("SELECT * FROM clients").show()
 
   }

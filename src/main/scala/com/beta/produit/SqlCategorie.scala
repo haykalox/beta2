@@ -15,26 +15,7 @@ object SqlCategorie {
 
   val dx = new Read
   val dw = dx.writeData(df,"/apps/hive/external/default/categories_vente","categories_vente")
-/*
-  spark.sql("drop table if EXISTS categories_vente")
 
-  spark.sql(
-    """CREATE EXTERNAL TABLE IF NOT EXISTS
-      |categories_vente (id Int,nom String,quantite_vente Int)
-      |ROW FORMAT DELIMITED
-      |FIELDS TERMINATED BY ';'
-      |STORED AS TEXTFILE
-      |PARTITIONED BY (technical_partition date)
-      |LOCATION '/apps/hive/external/default/categories_vente/'
-      |""".stripMargin)
-
-  val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-  fs.listStatus(new Path("/apps/hive/external/default/categories_vente"))
-    .filter(_.isDirectory)
-    .map(_.getPath.getName.replaceFirst("technical_partition=",""))
-    .foreach(fs =>
-      spark.sql(s"""alter table categories_vente add if not exists partition(technical_partition='$fs')"""))
-  */
     spark.sql("SELECT * FROM categories_vente").show()
 
 }}

@@ -15,26 +15,7 @@ object SqlProduit {
 
     val dx = new Read
     val dw = dx.writeData(df,"/apps/hive/external/default/achat_produit","achat_produit")
-/*
-    spark.sql("drop table if EXISTS achat_produit")
 
-    spark.sql(
-      """CREATE EXTERNAL TABLE IF NOT EXISTS
-        |achat_produit (id_produit Int,nom String,quantite_achat Int)
-        |ROW FORMAT DELIMITED
-        |FIELDS TERMINATED BY ';'
-        |STORED AS TEXTFILE
-        |PARTITIONED BY (technical_partition date)
-        |LOCATION '/apps/hive/external/default/achat_produit/'
-        |""".stripMargin)
-
-    val fs = FileSystem.get(spark.sparkContext.hadoopConfiguration)
-    fs.listStatus(new Path("/apps/hive/external/default/achat_produit"))
-      .filter(_.isDirectory)
-      .map(_.getPath.getName.replaceFirst("technical_partition=",""))
-      .foreach(fs =>
-        spark.sql(s"""alter table achat_produit add if not exists partition(technical_partition='$fs')"""))
-    */
     spark.sql("SELECT * FROM achat_produit").show()
 
 
