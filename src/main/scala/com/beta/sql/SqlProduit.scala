@@ -1,4 +1,4 @@
-package com.beta.produit
+package com.beta.sql
 
 import com.beta.RW.{Read, SparkConnector}
 import org.apache.spark.sql.functions.current_date
@@ -14,7 +14,7 @@ object SqlProduit {
       .withColumn("technical_partition", current_date())
 
     val dx = new Read
-    val dw = dx.writeData(df,"/apps/hive/external/default/achat_produit","achat_produit")
+    val dw = dx.writeData(df, "/apps/hive/external/default/achat_produit", "achat_produit")
 
     spark.sql("SELECT * FROM achat_produit").show()
 
