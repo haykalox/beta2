@@ -9,7 +9,7 @@ object IngestionAchats {
     val spark = Spark.getSession()
 
     val dx = new Read
-    val dr = dx.readData("/data/sql/achats.csv")
+    val dr = dx.readData("/data/achats.csv")
     val dw = dx.writeData(dr,"/apps/hive/external/default/achats/","achats")
 
     spark.sql("SELECT * FROM achats").show()
