@@ -1,22 +1,29 @@
 package com.beta.produit
 
-import com.beta.RW.{Read, SparkConnector}
-import org.apache.spark.sql.functions.{col, current_date, date_format, lit, to_timestamp}
+import com.beta.RW.SparkConnector
+import org.apache.spark.sql.functions._
 
 object IngestionCommande {
     def main(args: Array[String]): Unit = {
       val Spark = new SparkConnector
       val spark = Spark.getSession()
 
-      val df = new Read
-
-      val df2 = spark.read
+      val df1 = spark.read
         .format("csv")
         .option("header", "true")
         .option("mode", "dropmalformed")
         .option("delimiter", "#")
         .option("inferSchema","true")
         .load("/data/commandes.csv")
+
+      import spark.implicits._
+      val df2 = df1.map(f=>{
+        val elements = f.getString(0).split("#####")
+        (elements(0),elements(1),elements(2))
+      })
+      df2.printSchema()
+      df2.show()
+      val dx=df2.toDF("id_commande","dateheure","caisse")
         .withColumn("technical_partition", current_date())
         .withColumn("responsable",lit(1))
         .withColumn("testd",to_timestamp(col("dateheure"),"dd/MM/yyyy HH:mm"))
@@ -28,11 +35,13 @@ object IngestionCommande {
           col("caisse"),col("responsable"),
            col("technical_partition").cast("date")
               )
-
-
-        df.writeData(df2,"/apps/hive/external/default/commande","commande")
+        .show()
+/*
+        df.writeData(dfx,"/apps/hive/external/default/commande","commande")
 
         spark.sql("SELECT * FROM commande").show()
 
+
+ */
     }
   }

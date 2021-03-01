@@ -15,7 +15,6 @@ object test {
       .option("mode", "dropmalformed")
       .csv("/data/commandes.csv")
 
-    val schema = df1.schema.map(m => m.name)
     import spark.implicits._
     val df2 = df1.map(f=>{
       val elements = f.getString(0).split("#####")
@@ -23,7 +22,7 @@ object test {
     })
     df2.printSchema()
     df2.show()
-val dx=df2.toDF(s"${schema}")
+val dx=df2.toDF("id_commande","dateheure","caisse")
 dx.show()
 
   }
