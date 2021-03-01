@@ -12,7 +12,6 @@ object IngestionCommande {
         .format("csv")
         .option("header", "true")
         .option("mode", "dropmalformed")
-        .option("delimiter", "#")
         .option("inferSchema","true")
         .load("/data/commandes.csv")
 
