@@ -10,7 +10,8 @@ object IngestionCategories {
 
     val dx = new Read
     val dr = dx.readData("/data/sql/categories.csv")
-    val dw = dx.writeData(dr,"/apps/hive/external/default/categories/","categories")
+    val dfc=dr.count()
+    val dw = dx.writeData(dr,"/apps/hive/external/default/categories/","categories",dfc)
 
     spark.sql("SELECT * FROM categories").show()
 

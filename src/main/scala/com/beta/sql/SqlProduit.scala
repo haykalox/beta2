@@ -12,9 +12,10 @@ object SqlProduit {
 
     val df = spark.sql("select produits.id_produit,nom,achats.qt from produits INNER JOIN (select id_produit,SUM(qt) as qt from achats group by id_produit order by qt asc limit 5)achats ON produits.id_produit=achats.id_produit ")
       .withColumn("technical_partition", current_date())
+    val dfc=df.count()
 
     val dx = new Read
-    val dw = dx.writeData(df, "/apps/hive/external/default/achat_produit", "achat_produit")
+    val dw = dx.writeData(df, "/apps/hive/external/default/achat_produit", "achat_produit",dfc)
 
     spark.sql("SELECT * FROM achat_produit").show()
 

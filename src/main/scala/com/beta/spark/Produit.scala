@@ -25,8 +25,8 @@ object Produit {
       .orderBy(col("quantite").asc)
       .limit(5)
       .withColumn("technical_partition", current_date())
-
-    dfr.writeData(dx,"/apps/hive/external/default/produit_spark","produit_spark")
+    val dfc=dx.count()
+    dfr.writeData(dx,"/apps/hive/external/default/produit_spark","produit_spark",dfc)
 
     spark.sql("SELECT * FROM produit_spark").show()
 

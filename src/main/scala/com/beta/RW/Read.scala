@@ -22,8 +22,8 @@ class Read {
       .withColumn("technical_partition", current_date())
   }
 
-    def writeData(dr: DataFrame ,locationD: String,tb: String): Unit = {
-
+    def writeData(dr: DataFrame ,locationD: String,tb: String,count: Long): Unit = {
+      case class tbPro(tableName :String,published:String,schema:String,size:Long)
 
       dr.write
         .format("csv")
@@ -55,6 +55,20 @@ class Read {
         .map(_.getPath.getName.replaceFirst("technical_partition=",""))
         .foreach(fx =>
           spark.sql(s"""alter table $tb add if not exists partition(technical_partition='$fx')"""))
+
+      val dc=tbPro(tb,"True",data_schema,count)
+
+
+      spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'published'='${dc.published}')")
+
+      spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'schema'='${dc.schema}')")
+
+      if( dc.size <5)
+      spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'size'='small')")
+      else
+      spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'size'='big')")
+
+
 
     }
   }

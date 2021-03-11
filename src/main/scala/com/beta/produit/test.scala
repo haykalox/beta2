@@ -11,19 +11,26 @@ object test {
     val df = new Read
 
     val df1 = spark.read
-      .option("header", "true")
-      .option("mode", "dropmalformed")
-      .csv("/data/commandes.csv")
+      .text("/data/commandes.csv")
+
+/*
+val dt=df1.rdd.mapPartitionsWithIndex{
+  case (index, iterator) => if(index==0) iterator.drop(1) else iterator
+}
+
+
 
     import spark.implicits._
     val df2 = df1.map(f=>{
       val elements = f.getString(0).split("#####")
       (elements(0),elements(1),elements(2))
     })
-    df2.printSchema()
-    df2.show()
 val dx=df2.toDF("id_commande","dateheure","caisse")
-dx.show()
+
+  .show()
+
+
+ */
 
   }
 }

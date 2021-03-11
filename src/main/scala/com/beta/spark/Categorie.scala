@@ -29,9 +29,9 @@ object Categorie {
         .orderBy(col("quantite").desc)
         .limit(3)
         .withColumn("technical_partition", current_date())
+    val dfcc=dfx.count()
 
-
-    dfr.writeData(dfx,"/apps/hive/external/default/categorie_spark","categorie_spark")
+    dfr.writeData(dfx,"/apps/hive/external/default/categorie_spark","categorie_spark",dfcc)
 
     spark.sql("SELECT * FROM categorie_spark").show()
 

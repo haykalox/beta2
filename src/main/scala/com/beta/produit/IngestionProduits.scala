@@ -9,7 +9,8 @@ object IngestionProduits {
 
     val dx = new Read
     val dr = dx.readData("/data/sql/produits.csv")
-    val dw = dx.writeData(dr,"/apps/hive/external/default/produits/","produits")
+    val dfc=dr.count()
+    val dw = dx.writeData(dr,"/apps/hive/external/default/produits/","produits",dfc)
 
     spark.sql("SELECT * FROM produits").show()
 

@@ -25,8 +25,9 @@ val df = dfc.join(dfa, dfc("id_client")===dfa("id_client")).drop(dfa("id_client"
       .orderBy(col("quantite").desc)
       .limit(3)
       .withColumn("technical_partition", current_date())
+    val dfcc=dx.count()
 
-    dfr.writeData(dx,"/apps/hive/external/default/client_spark","client_spark")
+    dfr.writeData(dx,"/apps/hive/external/default/client_spark","client_spark",dfcc)
 
     spark.sql("SELECT * FROM client_spark").show()
 
