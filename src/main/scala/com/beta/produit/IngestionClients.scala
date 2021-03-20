@@ -14,6 +14,7 @@ object IngestionClients {
     val dw = dx.writeData(dr,"/apps/hive/external/default/clients/","clients",dfc)
 
     spark.sql("SELECT * FROM clients").show()
+    spark.sql("Show tblproperties clients").show(false)
 
   }
 }

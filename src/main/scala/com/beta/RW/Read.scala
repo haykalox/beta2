@@ -1,6 +1,7 @@
 package com.beta.RW
 
 
+import com.typesafe.config.ConfigFactory
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions.current_date
@@ -57,12 +58,41 @@ class Read {
           spark.sql(s"""alter table $tb add if not exists partition(technical_partition='$fx')"""))
 
       val dc=tbPro(tb,"True",data_schema,count)
+      val config = ConfigFactory.load("application.conf").getConfig("tables")
 
-
+      if ( dc.tableName == "commande" ) {
+        val tbl = config.getConfig("commande")
+        val published = tbl.getString("published")
+        val Commentaire = tbl.getString("Commentaire")
+        spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'published'='$published')")
+        spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ('Commentaire'='$Commentaire')")
+      }
+      else if ( dc.tableName == "categories" ) {
+        val tbl = config.getConfig("categories")
+        val published = tbl.getString("published")
+        val Commentaire = tbl.getString("Commentaire")
+        spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'published'='$published')")
+        spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ('Commentaire'='$Commentaire')")
+      }
+      else if ( dc.tableName == "produits" ) {
+        val tbl = config.getConfig("produits")
+        val published = tbl.getString("published")
+        val Commentaire = tbl.getString("Commentaire")
+        spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'published'='$published')")
+        spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ('Commentaire'='$Commentaire')")
+      }
+      else if ( dc.tableName == "clients" ) {
+        val tbl = config.getConfig("clients")
+        val published = tbl.getString("published")
+        val Commentaire = tbl.getString("Commentaire")
+        spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'published'='$published')")
+        spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ('Commentaire'='$Commentaire')")
+      }
+      else{
       spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'published'='${dc.published}')")
 
       spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'schema'='${dc.schema}')")
-
+      }
       if( dc.size <5)
       spark.sql(s"ALTER TABLE ${dc.tableName} SET TBLPROPERTIES ( 'size'='small')")
       else

@@ -15,6 +15,7 @@ object IngestionAchats {
     val dw = dx.writeData(dr,"/apps/hive/external/default/achats/","achats",dfc)
 
     spark.sql("SELECT * FROM achats").show()
+    spark.sql("Show tblproperties achats").show(false)
 
   }
 }

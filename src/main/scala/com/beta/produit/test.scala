@@ -1,36 +1,25 @@
 package com.beta.produit
 
-import com.beta.RW.{Read, SparkConnector}
+import com.typesafe.config._
 
 object test {
   def main(args: Array[String]): Unit = {
 
-    val Spark = new SparkConnector
-    val spark = Spark.getSession()
+    val config = ConfigFactory.load("application.conf").getConfig("tables")
+    val commande = config.getConfig("commande")
+    val testG = commande.getString("Commentaire")
+    val categories = config.getConfig("categories")
+    val produits = config.getConfig("produits")
+    val clients = config.getConfig("clients")
 
-    val df = new Read
-
-    val df1 = spark.read
-      .text("/data/commandes.csv")
-
-/*
-val dt=df1.rdd.mapPartitionsWithIndex{
-  case (index, iterator) => if(index==0) iterator.drop(1) else iterator
-}
-
-
-
-    import spark.implicits._
-    val df2 = df1.map(f=>{
-      val elements = f.getString(0).split("#####")
-      (elements(0),elements(1),elements(2))
-    })
-val dx=df2.toDF("id_commande","dateheure","caisse")
-
-  .show()
-
-
- */
-
+    println(commande)
+    println("***************************************")
+    println(produits)
+    println("***************************************")
+    println(categories)
+    println("***************************************")
+    println(clients)
+    println("-----------------------------------------")
+println(testG)
   }
 }
