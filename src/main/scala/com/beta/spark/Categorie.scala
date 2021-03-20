@@ -34,7 +34,7 @@ object Categorie {
     dfr.writeData(dfx,"/apps/hive/external/default/categorie_spark","categorie_spark",dfcc)
 
     spark.sql("SELECT * FROM categorie_spark").show()
-
+    spark.sql("Show tblproperties categorie_spark").show(false)
 
 
 

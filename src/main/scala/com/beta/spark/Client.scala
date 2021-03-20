@@ -30,6 +30,6 @@ val df = dfc.join(dfa, dfc("id_client")===dfa("id_client")).drop(dfa("id_client"
     dfr.writeData(dx,"/apps/hive/external/default/client_spark","client_spark",dfcc)
 
     spark.sql("SELECT * FROM client_spark").show()
-
+    spark.sql("Show tblproperties client_spark").show(false)
   }
 }

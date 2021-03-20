@@ -29,7 +29,7 @@ object Produit {
     dfr.writeData(dx,"/apps/hive/external/default/produit_spark","produit_spark",dfc)
 
     spark.sql("SELECT * FROM produit_spark").show()
-
+    spark.sql("Show tblproperties produit_spark").show(false)
 
 
 

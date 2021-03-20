@@ -18,6 +18,6 @@ object SqlCategorie {
     val dw = dx.writeData(df, "/apps/hive/external/default/categories_vente", "categories_vente",dfc)
 
     spark.sql("SELECT * FROM categories_vente").show()
-
+    spark.sql("Show tblproperties categories_vente").show(false)
   }
 }

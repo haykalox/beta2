@@ -18,7 +18,7 @@ object SqlClient {
     val dw = dx.writeData(df, "/apps/hive/external/default/achat_Client", "achat_Client",dfc)
 
     spark.sql("SELECT * FROM achat_Client").show()
-
+    spark.sql("Show tblproperties achat_Client").show(false)
 
   }
 }
